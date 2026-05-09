@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
 </p>
 
-<h1 align="center">MineWorld</h1>
+<h1 align="center">Minecraft Client</h1>
 
 <p align="center"><strong>Real-Time Minecraft Agent Observation Platform</strong></p>
 
