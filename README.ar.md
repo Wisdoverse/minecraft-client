@@ -1,15 +1,12 @@
-<!-- header -->
----
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
 </p>
 
 <h1 align="center">MineWorld</h1>
 
-<p align="center"><strong>منصة مراقبة عملاء Minecraft في الوقت الفعلي</strong></p>
+<p align="center"><strong>منصة مراقبة وكلاء Minecraft في الوقت الفعلي</strong></p>
 
-<p align="center">مراقبة وتتبع وتصور عملاء الذكاء الاصطناعي في Minecraft — كل ذلك في مكان واحد.</p>
+<p align="center">مراقبة وتتبع وتصور وكلاء الذكاء الاصطناعي في Minecraft - كل ذلك في مكان واحد.</p>
 
 ---
 
@@ -32,101 +29,184 @@
 - [الميزات](#الميزات)
 - [البدء السريع](#البدء-السريع)
 - [البنية](#البنية)
-- [القابلية للمراقبة](#القابلية-للمراقبة)
+- [المراقبة](#المراقبة)
 - [المساهمة](#المساهمة)
 - [الترخيص](#الترخيص)
 
 ## الميزات
 
-### المراقبة في الوقت الفعلي
+### القدرات الأساسية
 
-- **تتبع العملاء** — تتبع الموقع والصحة والمخزون والحالة في الوقت الفعلي
-- **تدفق الأحداث** — بث جميع أحداث العملاء إلى منصة المراقبة
-- **لقطات العالم** — لقطات دورية للكتل والكيانات
+| الفئة | الوصف |
+|-------|-------|
+| **اتصال الخادم** | الاتصال بأي خادم Minecraft (غير متصل أو متصل) |
+| **التحكم في الحركة** | المشي، القفز، الركض، السباحة، التنقل عبر المسار |
+| **نظام القتال** | مهاجمة الكيانات، استخدام الأسلحة والدروع |
+| **إدارة المخزون** | عرض المخزون، نقل العناصر، إدارة المعدات |
+| **نظام التصنيع** | تصنيع العناصر باستخدام المخزون أو طاولة العمل |
+| **نظام الصهر** | صهر الخامات، اكتشاف الأفران تلقائياً |
+| **عمليات الحاويات** | الصندوق، القمع، الموزع، البرميل، الفرن |
+| **نظام التجارة** | واجهة التجارة مع villagers |
+| **نظام الزراعة** | الحراثة والزراعة والحصاد التلقائي |
+| **نظام البناء** | البناء وفق المخططات مع تقرير التقدم |
+| **نظام الرؤية** | لقطات الشاشة والحصول على المعلومات |
+| **استعلام الويكي** | الحصول على الوصفات والمعلومات من ويكي Minecraft |
 
-### الأدوات المدمجة
+### الميزات المتقدمة
 
-- **إيجاد المسار** — انتقل إلى أي موقع باستخدام A*
-- **القتال** — مهاجمة الكيانات بسلوك قابل للتكوين
-- **المخزون** — إدارة كاملة للمخزون (نقل، تجهيز، رمي العناصر)
-- **الصناعة** — صناعة العناصر باستخدام طاولة العمل أو المخزون
-- **الصهر** — صهر الخامات وطهي الطعام
-- **الزراعة** — زراعة المحاصيل تلقائياً (القمح، الجزر، البطاطس، الشمندر)
-- **البناء** — بناء الهياكل من ملفات المخططات
-- **التجارة** — التجارة مع villagers
-- **النوم** — البحث عن السرير والنوم فيه
-- **ال الصيد** — الصيد التلقائي
-
-### منصة المراقبة
-
-- **اتصال WebSocket** — اتصال ثنائي الاتجاه في الوقت الفعلي
-- **الاشتراك في الأحداث** — اشترك في أنواع أحداث محددة
-- **تنسيق الفريق** — دعم العملاء المتعددين
-- **تقارير التقدم** — تتبع تقدم البناء
+| الميزة | الوصف |
+|--------|-------|
+| **التحكم في المركبات** | الدخول/الخروج من القوارب وعربات المناجم |
+| **حظر الدرع** | تفعيل/إلغاء حماية الدرع |
+| **قائمة بيضاء للسحب** | حماية العناصر المهمة من الحذف العرضي |
+| **التجهيز التلقائي** | تجهيز الدروع والأقواس والدروق المصنوعة تلقائياً |
+| **تفريغ الفرن** | أخذ جميع العناصر من الفرن بنقرة واحدة |
+| **حاويات متعددة** | اكتشاف نوع الحاوية تلقائياً |
 
 ## البدء السريع
-
-### المتطلبات الأساسية
-
-- Node.js 18+
-- خادم Minecraft (Java Edition 1.8+)
 
 ### التثبيت
 
 ```bash
-git clone https://github.com/Wisdoverse/mineworld.git
-cd mineworld
+git clone https://github.com/Wisdoverse/minecraft-client.git
+cd minecraft-client
 npm install
-npm run dev
+```
+
+### الاتصال بالخادم
+
+```bash
+# خادم غير متصل (افتراضي)
+node scripts/connect.js --host localhost --port 25565 --username MyBot --auth offline
+
+# خادم متصل مع مصادقة Microsoft
+node scripts/connect.js --host mc.hypixel.net --port 25565 --username MyBot --auth microsoft
+
+# تفعيل منصة المراقبة
+node scripts/connect.js --host localhost --port 25565 --username MyBot \
+  --observer-ws "wss://your-observer-server/ws/agent" \
+  --observer-token "your-token"
+```
+
+### التفاعلات الأساسية
+
+```bash
+# الحركة
+node scripts/interact.js --action move --connection-id <id> --direction forward
+node scripts/interact.js --action jump --connection-id <id>
+node scripts/interact.js --action swim --connection-id <id> --swim-action start
+
+# الدردشة
+node scripts/interact.js --action chat --connection-id <id> --message "مرحباً!"
+
+# القتال
+node scripts/interact.js --action attack --connection-id <id> --entity-name Zombie
+node scripts/interact.js --action equip --connection-id <id> --slot 5 --destination head
+
+# حظر الدرع
+node scripts/interact.js --action block --connection-id <id> --block-action enable
+node scripts/interact.js --action block --connection-id <id> --block-action disable
+
+# التحكم في المركبات
+node scripts/interact.js --action boat --connection-id <id> --boat-action enter
+node scripts/interact.js --action boat --connection-id <id> --boat-action exit
+```
+
+### التصنيع والصهر
+
+```bash
+# التصنيع في المخزون (2x2)
+node scripts/craft.js --connection-id <id> --item stick --amount 4
+
+# التصنيع في طاولة العمل (3x3)
+node scripts/craft.js --connection-id <id> --item diamond_pickaxe --use-workbench true
+
+# تجهيز الدروع المصنوعة تلقائياً
+node scripts/craft.js --connection-id <id> --item diamond_helmet --auto-equip
+
+# الصهر
+node scripts/smelt.js --connection-id <id> --item iron_ore --amount 10 --fuel coal
+
+# تفريغ الفرن
+node scripts/smelt.js --connection-id <id> --action clear --furnace-position "100,64,200"
+```
+
+### عمليات الحاويات
+
+```bash
+# عرض الحاوية
+node scripts/chest.js --connection-id <id> --action list --position "100,64,200"
+
+# تخزين العناصر
+node scripts/chest.js --connection-id <id> --action store --position "100,64,200" --item diamond --amount 16
+
+# سحب العناصر
+node scripts/chest.js --connection-id <id> --action withdraw --position "100,64,200" --item iron_ingot --amount 32
 ```
 
 ## البنية
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      منصة المراقبة                          │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │   لوحة التحكم │  │   تدفق     │  │   مدير     │         │
-│  │             │  │   الأحداث   │  │   الفريق   │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
-                            ▲
-                            │ WebSocket
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                      عميل Minecraft                          │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │   Mineflayer │  │  Pathfinder │  │   الإجراءات │         │
-│  │             │  │             │  │   المدير    │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
+minecraft-client/
+├── SKILL.md                           # تعريف Skill
+├── package.json                       # تبعيات Node.js
+├── scripts/
+│   ├── connect.js                     # اتصال Bot الرئيسي
+│   ├── interact.js                    # أوامر التفاعل
+│   ├── disconnect.js                  # قطع الاتصال
+│   ├── status.js                      # استعلام الحالة
+│   ├── vision.js                      # لقطة الشاشة
+│   ├── inventory.js                   # إدارة المخزون
+│   ├── craft.js                       # نظام التصنيع
+│   ├── smelt.js                       # نظام الصهر
+│   ├── chest.js                       # عمليات الحاويات
+│   ├── sleep.js                       # نظام النوم
+│   ├── auto.js                        # المهام الآلية
+│   ├── farm.js                        # نظام الزراعة
+│   ├── build.js                       # البناء وفق المخططات
+│   ├── monitor.js                     # مراقبة البيئة
+│   ├── query.js                       # نظام الاستعلام
+│   ├── trade.js                       # التجارة مع villagers
+│   ├── events.js                      # الاشتراك في الأحداث
+│   ├── wiki.js                        # استعلام الويكي
+│   └── multi.js                       # تنسيق Multi-Bot
+└── references/
+    └── observer-platform-protocol.md  # بروتوكول منصة المراقبة
 ```
 
-## القابلية للمراقبة
+## المراقبة
 
-### أنواع الأحداث
+### الأحداث المدعومة
 
-| الحدث | الوصف |
-|-------|-------|
-| `connected` | العميل متصل بالخادم |
-| `disconnected` | العميل غير متصل |
-| `moved` | العميل تحرك |
-| `jumped` | العميل قفز |
-| `attacked` | العميل هاجم كياناً |
-| `damaged` | العميل تعرض للضرر |
-| `died` | العميل مات |
-| `chat_sent` | تم إرسال رسالة |
-| `chat_received` | تم استلام رسالة |
-| `block_broken` | تم كسر كتلة |
-| `block_placed` | تم وضع كتلة |
-| `item_picked_up` | تم التقاط عنصر |
-| `item_dropped` | تم إسقاط عنصر |
-| `inventory_changed` | تم تغيير المخزون |
+| نوع الحدث | الوصف |
+|-----------|-------|
+| `connected` | Bot متصل بالخادم |
+| `disconnected` | Bot غير متصل |
+| `moved` | Bot تحرك أو تنقل |
+| `jumped` | Bot قفز |
+| `attacked` | Bot هاجم كيان |
+| `damaged` | Bot تلقى ضرراً |
+| `died` | Bot مات |
+| `chat_sent` | رسالة دردشة مرسلة |
+| `chat_received` | رسالة دردشة مستلمة |
+| `block_broken` | كتلة محطمة |
+| `block_placed` | كتلة موضوعة |
+| `item_picked_up` | عنصر ملتقطة |
+| `item_dropped` | عنصر ملقى |
+| `item_used` | عنصر مستخدم |
+| `inventory_changed` | المخزون تغير |
+| `world_changed` | العالم تغير (البعد) |
+| `respawned` | Bot ظهر من جديد |
+| `item_crafted` | عنصر مصنوع |
+| `item_smelted` | عنصر مصهور |
+| `chest_opened` | حاوية مفتوحة |
+| `item_deposited` | عنصر مُودع |
+| `item_withdrawn` | عنصر مسحوب |
 
 ## المساهمة
 
-المساهمات مرحب بها! لا تتردد في إرسال طلب سحب.
+المساهمات مرحب بها! لا تتردد في إرسال Issues و Pull Requests.
 
 ## الترخيص
 
-هذا المشروع مرخص بموجب MIT.
+MIT

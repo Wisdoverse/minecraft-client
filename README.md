@@ -1,6 +1,3 @@
-<!-- header -->
----
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
 </p>
@@ -38,144 +35,194 @@
 
 ## Features
 
-### Real-Time Monitoring
+### Core Capabilities
 
-- **Live Agent Tracking** — Track agent position, health, inventory, and status in real-time
-- **Event Streaming** — Stream all agent events (movement, combat, inventory changes) to the observer platform
-- **World Snapshots** — Periodic world snapshots showing blocks and entities around agents
+| Category | Description |
+|----------|-------------|
+| **Server Connection** | Connect to any Minecraft server (offline or online mode) |
+| **Movement Control** | Walk, jump, sprint, swim, path navigation |
+| **Combat System** | Attack entities, use weapons and armor |
+| **Inventory Management** | View inventory, move items, equipment management |
+| **Crafting System** | Craft items using inventory or workbench |
+| **Smelting System** | Smelt ores, auto-detect furnaces |
+| **Container Operations** | Chest, hopper, dropper, dispenser, barrel, furnace access |
+| **Trading System** | Villager trading interface |
+| **Farming System** | Auto-till, plant, harvest crops |
+| **Building System** | Blueprint construction with progress reporting |
+| **Vision System** | Scene screenshots and information retrieval |
+| **Wiki Query** | Query Minecraft Wiki for recipes and info |
 
-### Built-in Tools
+### Advanced Features
 
-- **Pathfinding** — Navigate to any location using A* pathfinding
-- **Combat** — Attack entities with configurable behavior
-- **Inventory** — Full inventory management (move, equip, drop items)
-- **Crafting** — Craft items using workbench or inventory
-- **Smelting** — Smelt ores and cook food
-- **Farming** — Automatic crop farming (wheat, carrots, potatoes, beetroot)
-- **Building** — Build structures from blueprint files
-- **Trading** — Trade with villagers
-- **Sleep** — Find and sleep in beds
-- **Fishing** — Automatic fishing
-
-### Observer Platform
-
-- **WebSocket Connection** — Real-time bidirectional communication
-- **Event Subscription** — Subscribe to specific event types
-- **Team Coordination** — Multi-agent coordination support
-- **Progress Reporting** — Build progress tracking
+| Feature | Description |
+|---------|-------------|
+| **Vehicle Control** | Enter/exit boats and minecarts |
+| **Shield Blocking** | Enable/disable shield defense |
+| **Drop Whitelist** | Protect important items from accidental deletion |
+| **Auto-Equip** | Auto-equip crafted armor, shields, bows |
+| **Clear Furnace** | One-click to take all items from furnace |
+| **Multi-Container** | Auto-detect container types |
 
 ## Quick Start
-
-### Prerequisites
-
-- Node.js 18+
-- Minecraft Server (Java Edition 1.8+)
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/Wisdoverse/mineworld.git
-cd mineworld
-
-# Install dependencies
+git clone https://github.com/Wisdoverse/minecraft-client.git
+cd minecraft-client
 npm install
-
-# Start the development server
-npm run dev
 ```
 
-### Configuration
+### Connect to Server
 
-Create a `.env` file in the root directory:
+```bash
+# Offline server (default)
+node scripts/connect.js --host localhost --port 25565 --username MyBot --auth offline
 
-```env
-# Observer Platform
-OBSERVER_WS_URL=ws://localhost:8080/ws/agent
-OBSERVER_TOKEN=your-token-here
+# Online/Microsoft authenticated server
+node scripts/connect.js --host mc.hypixel.net --port 25565 --username MyBot --auth microsoft
 
-# Minecraft Server
-MC_HOST=localhost
-MC_PORT=25565
-MC_USERNAME=AgentBot
+# Enable observer platform
+node scripts/connect.js --host localhost --port 25565 --username MyBot \
+  --observer-ws "wss://your-observer-server/ws/agent" \
+  --observer-token "your-token"
+```
+
+### Basic Interactions
+
+```bash
+# Movement
+node scripts/interact.js --action move --connection-id <id> --direction forward
+node scripts/interact.js --action jump --connection-id <id>
+node scripts/interact.js --action swim --connection-id <id> --swim-action start
+
+# Chat
+node scripts/interact.js --action chat --connection-id <id> --message "Hello!"
+
+# Combat
+node scripts/interact.js --action attack --connection-id <id> --entity-name Zombie
+node scripts/interact.js --action equip --connection-id <id> --slot 5 --destination head
+
+# Shield blocking
+node scripts/interact.js --action block --connection-id <id> --block-action enable
+node scripts/interact.js --action block --connection-id <id> --block-action disable
+
+# Vehicle control
+node scripts/interact.js --action boat --connection-id <id> --boat-action enter
+node scripts/interact.js --action boat --connection-id <id> --boat-action exit
+```
+
+### Crafting & Smelting
+
+```bash
+# Inventory crafting (2x2)
+node scripts/craft.js --connection-id <id> --item stick --amount 4
+
+# Workbench crafting (3x3)
+node scripts/craft.js --connection-id <id> --item diamond_pickaxe --use-workbench true
+
+# Auto-equip crafted armor
+node scripts/craft.js --connection-id <id> --item diamond_helmet --auto-equip
+
+# Smelt items
+node scripts/smelt.js --connection-id <id> --item iron_ore --amount 10 --fuel coal
+
+# Clear furnace
+node scripts/smelt.js --connection-id <id> --action clear --furnace-position "100,64,200"
+```
+
+### Container Operations
+
+```bash
+# View container
+node scripts/chest.js --connection-id <id> --action list --position "100,64,200"
+
+# Store items
+node scripts/chest.js --connection-id <id> --action store --position "100,64,200" --item diamond --amount 16
+
+# Withdraw items
+node scripts/chest.js --connection-id <id> --action withdraw --position "100,64,200" --item iron_ingot --amount 32
 ```
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      Observer Platform                       │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │  Dashboard  │  │   Event     │  │   Team      │         │
-│  │             │  │   Stream    │  │   Manager   │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
-                            ▲
-                            │ WebSocket
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                      Minecraft Client                        │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │  Mineflayer │  │  Pathfinder │  │   Actions   │         │
-│  │             │  │             │  │   Manager   │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
-                            ▲
-                            │ Unix Socket
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                      CLI Interface                           │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │   Connect   │  │   Interact  │  │   Status    │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
+minecraft-client/
+├── SKILL.md                           # Skill definition
+├── package.json                       # Node.js dependencies
+├── scripts/
+│   ├── connect.js                     # Main bot connection
+│   ├── interact.js                    # Interaction commands
+│   ├── disconnect.js                  # Disconnect
+│   ├── status.js                      # Status query
+│   ├── vision.js                      # Screenshot
+│   ├── inventory.js                   # Inventory management
+│   ├── craft.js                       # Crafting system
+│   ├── smelt.js                       # Smelting system
+│   ├── chest.js                       # Container operations
+│   ├── sleep.js                       # Sleep system
+│   ├── auto.js                        # Automation tasks
+│   ├── farm.js                        # Farming system
+│   ├── build.js                       # Blueprint building
+│   ├── monitor.js                     # Environment monitoring
+│   ├── query.js                       # Query system
+│   ├── trade.js                       # Villager trading
+│   ├── events.js                      # Event subscription
+│   ├── wiki.js                        # Wiki query
+│   └── multi.js                       # Multi-bot coordination
+└── references/
+    └── observer-platform-protocol.md  # Observer platform protocol
 ```
 
 ## Observability
 
-### Event Types
+### Supported Events
 
-| Event | Description |
-|-------|-------------|
-| `connected` | Agent connected to server |
-| `disconnected` | Agent disconnected |
-| `moved` | Agent position changed |
-| `jumped` | Agent jumped |
-| `attacked` | Agent attacked an entity |
-| `damaged` | Agent took damage |
-| `died` | Agent died |
+| Event Type | Description |
+|------------|-------------|
+| `connected` | Bot connected to server |
+| `disconnected` | Bot disconnected |
+| `moved` | Bot moved or navigated |
+| `jumped` | Bot jumped |
+| `attacked` | Bot attacked entity |
+| `damaged` | Bot took damage |
+| `died` | Bot died |
 | `chat_sent` | Chat message sent |
 | `chat_received` | Chat message received |
-| `block_broken` | Block was broken |
-| `block_placed` | Block was placed |
-| `item_picked_up` | Item was picked up |
-| `item_dropped` | Item was dropped |
-| `inventory_changed` | Inventory was modified |
+| `block_broken` | Block broken |
+| `block_placed` | Block placed |
+| `item_picked_up` | Item picked up |
+| `item_dropped` | Item dropped |
+| `item_used` | Item used |
+| `inventory_changed` | Inventory changed |
+| `world_changed` | World changed (dimension) |
+| `respawned` | Bot respawned |
+| `item_crafted` | Item crafted |
+| `item_smelted` | Item smelted |
+| `chest_opened` | Container opened |
+| `item_deposited` | Item deposited |
+| `item_withdrawn` | Item withdrawn |
 
-### Message Protocol
+### Message Format
 
 ```json
 {
   "type": "agent:event",
   "payload": {
-    "agentId": "agent-001",
+    "agentId": "xxx",
     "event": {
       "type": "moved",
-      "description": "Agent moved to x=100, y=64, z=-200",
-      "data": {
-        "from": { "x": 90, "y": 64, "z": -200 },
-        "to": { "x": 100, "y": 64, "z": -200 }
-      }
-    },
-    "timestamp": 1704067200000
+      "description": "Bot moved to position",
+      "data": { "position": { "x": 0, "y": 64, "z": 0 } }
+    }
   }
 }
 ```
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Feel free to submit Issues and Pull Requests.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT

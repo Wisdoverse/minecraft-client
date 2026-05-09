@@ -1,6 +1,3 @@
-<!-- header -->
----
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
 </p>
@@ -32,101 +29,184 @@
 - [機能](#機能)
 - [クイックスタート](#クイックスタート)
 - [アーキテクチャ](#アーキテクチャ)
-- [監視機能](#監視機能)
-- [コントリビューション](#コントリビューション)
+- [監視プラットフォーム](#監視プラットフォーム)
+- [貢献](#貢献)
 - [ライセンス](#ライセンス)
 
 ## 機能
 
-### リアルタイム監視
+### コア機能
 
-- **Agent 追跡** — Agent の位置、健康、インベントリ、ステータスをリアルタイムで追跡
-- **イベントストリーム** — すべての Agent イベントを監視プラットフォームにストリーミング
-- **ワールドスナップショット** — Agent 周囲のブロックとエンティティの定期スナップショット
+| カテゴリ | 説明 |
+|----------|------|
+| **サーバー接続** | 任意のMinecraftサーバーに接続（オフライン/オンライン） |
+| **移動制御** | 歩行、ジャンプ、スプリント、水泳、パス探索 |
+| **戦闘システム** | エンティティ攻撃、武器・防具使用 |
+| **インベントリ管理** | インベントリ表示、アイテム移動、装備管理 |
+| **作業台システム** | インベントリまたは作業台での製造 |
+| **精錬システム** | 鉱石の精錬、炉の自動検出 |
+| **コンテナ操作** | チェスト、ホッパー、ドロッパー、ディスペンサー、バレル、炉 |
+| **取引システム** | 村人取引インターフェース |
+| **農業システム** | 自動耕うん、植付け、収穫 |
+| **建設システム** | ブループリント建設、進捗報告 |
+| **ビジョンシステム** | スクリーンショット、情報取得 |
+| **Wiki検索** | Minecraft Wikiからレシピ情報取得 |
 
-### 組み込みツール
+### 上級機能
 
-- **パスファインディング** — A* パスファインディングで任意の場所へナビゲーション
-- **戦闘** — 設定可能な動作でエンティティを攻撃
-- **インベントリ** — 完全なインベントリ管理（移動、装備、アイテムドロップ）
-- **作業台** — 作業台またはインベントリでアイテムを製造
-- **精錬** — 鉱石を精錬し食べ物を調理
-- **農業** — 自動作物栽培（小麦、人参、ジャガイモ、ビートルート）
-- **建築** — ブループリントファイルから構造物を建設
-- **取引** — 村人と交易
-- **睡眠** — ベッドを見つけて寝る
-- **釣り** — 自動釣り
-
-### 監視プラットフォーム
-
-- **WebSocket 接続** — リアルタイム双方向通信
-- **イベント購読** — 特定のイベントタイプを購読
-- **チーム調整** — マルチエージェント調整サポート
-- **進捗報告** — 建設進捗トラッキング
+| 機能 | 説明 |
+|------|------|
+| **車両制御** | boatsおよびminecartsへの入退出 |
+| **盾防御** | 盾防御の有効/無効 |
+| **ドロップホワイトリスト** | 大切なアイテムの誤削除保護 |
+| **自動装備** | 製造した防具、盾、弓の自動装備 |
+| **炉クリア** | 炉から全アイテムを一括取得 |
+| **マルチコンテナ** | コンテナタイプの自動検出 |
 
 ## クイックスタート
-
-### 前提条件
-
-- Node.js 18+
-- Minecraft サーバー（Java Edition 1.8+）
 
 ### インストール
 
 ```bash
-git clone https://github.com/Wisdoverse/mineworld.git
-cd mineworld
+git clone https://github.com/Wisdoverse/minecraft-client.git
+cd minecraft-client
 npm install
-npm run dev
+```
+
+### サーバー接続
+
+```bash
+# オフラインサーバー（デフォルト）
+node scripts/connect.js --host localhost --port 25565 --username MyBot --auth offline
+
+# オンライン/Microsoft認証サーバー
+node scripts/connect.js --host mc.hypixel.net --port 25565 --username MyBot --auth microsoft
+
+# 監視プラットフォーム有効化
+node scripts/connect.js --host localhost --port 25565 --username MyBot \
+  --observer-ws "wss://your-observer-server/ws/agent" \
+  --observer-token "your-token"
+```
+
+### 基本操作
+
+```bash
+# 移動
+node scripts/interact.js --action move --connection-id <id> --direction forward
+node scripts/interact.js --action jump --connection-id <id>
+node scripts/interact.js --action swim --connection-id <id> --swim-action start
+
+# チャット
+node scripts/interact.js --action chat --connection-id <id> --message "こんにちは！"
+
+# 戦闘
+node scripts/interact.js --action attack --connection-id <id> --entity-name Zombie
+node scripts/interact.js --action equip --connection-id <id> --slot 5 --destination head
+
+# 盾防御
+node scripts/interact.js --action block --connection-id <id> --block-action enable
+node scripts/interact.js --action block --connection-id <id> --block-action disable
+
+# 車両制御
+node scripts/interact.js --action boat --connection-id <id> --boat-action enter
+node scripts/interact.js --action boat --connection-id <id> --boat-action exit
+```
+
+### 製造と精錬
+
+```bash
+# インベントリ製造（2x2）
+node scripts/craft.js --connection-id <id> --item stick --amount 4
+
+# 作業台製造（3x3）
+node scripts/craft.js --connection-id <id> --item diamond_pickaxe --use-workbench true
+
+# 製造した防具を自動装備
+node scripts/craft.js --connection-id <id> --item diamond_helmet --auto-equip
+
+# 精錬
+node scripts/smelt.js --connection-id <id> --item iron_ore --amount 10 --fuel coal
+
+# 炉をクリア
+node scripts/smelt.js --connection-id <id> --action clear --furnace-position "100,64,200"
+```
+
+### コンテナ操作
+
+```bash
+# コンテナ表示
+node scripts/chest.js --connection-id <id> --action list --position "100,64,200"
+
+# アイテムを保管
+node scripts/chest.js --connection-id <id> --action store --position "100,64,200" --item diamond --amount 16
+
+# アイテムを取得
+node scripts/chest.js --connection-id <id> --action withdraw --position "100,64,200" --item iron_ingot --amount 32
 ```
 
 ## アーキテクチャ
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     監視プラットフォーム                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │   ダッシュボード│  │  イベント   │  │   チーム    │         │
-│  │             │  │   ストリーム │  │   マネージャー│         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
-                            ▲
-                            │ WebSocket
-                            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                     Minecraft クライアント                    │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │   Mineflayer │  │ Pathfinder │  │   アクション │         │
-│  │             │  │            │  │   マネージャー│         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
+minecraft-client/
+├── SKILL.md                           # Skill定義
+├── package.json                       # Node.js依存関係
+├── scripts/
+│   ├── connect.js                     # メインBot接続
+│   ├── interact.js                    # インタラクションコマンド
+│   ├── disconnect.js                  # 切断
+│   ├── status.js                      # ステータス取得
+│   ├── vision.js                      # スクリーンショット
+│   ├── inventory.js                   # インベントリ管理
+│   ├── craft.js                       # 製造システム
+│   ├── smelt.js                       # 精錬システム
+│   ├── chest.js                       # コンテナ操作
+│   ├── sleep.js                       # 睡眠システム
+│   ├── auto.js                        # 自動化タスク
+│   ├── farm.js                        # 農業システム
+│   ├── build.js                       # ブループリント建設
+│   ├── monitor.js                     # 環境監視
+│   ├── query.js                       # クエリシステム
+│   ├── trade.js                       # 村人取引
+│   ├── events.js                      # イベント購読
+│   ├── wiki.js                        # Wiki検索
+│   └── multi.js                       # マルチBot連携
+└── references/
+    └── observer-platform-protocol.md  # 監視プラットフォームプロトコル
 ```
 
-## 監視機能
+## 監視プラットフォーム
 
-### イベントタイプ
+### サポートイベント
 
-| イベント | 説明 |
-|----------|------|
-| `connected` | Agent がサーバーに接続 |
-| `disconnected` | Agent の切断 |
-| `moved` | Agent の移動 |
-| `jumped` | Agent のジャンプ |
-| `attacked` | Agent がエンティティを攻撃 |
-| `damaged` | Agent がダメージを受けた |
-| `died` | Agent が死亡 |
+| イベントタイプ | 説明 |
+|---------------|------|
+| `connected` | Botがサーバーに接続 |
+| `disconnected` | Botが切断 |
+| `moved` | Botが移動またはナビゲート |
+| `jumped` | Botがジャンプ |
+| `attacked` | Botがエンティティを攻撃 |
+| `damaged` | Botがダメージを受けた |
+| `died` | Botが死亡 |
 | `chat_sent` | チャットメッセージ送信 |
 | `chat_received` | チャットメッセージ受信 |
-| `block_broken` | ブロック破壊 |
-| `block_placed` | ブロック設置 |
-| `item_picked_up` | アイテム取得 |
-| `item_dropped` | アイテムドロップ |
-| `inventory_changed` | インベントリ変更 |
+| `block_broken` | ブロックが破壊された |
+| `block_placed` | ブロックが置かれた |
+| `item_picked_up` | アイテムを取得 |
+| `item_dropped` | アイテムをドロップ |
+| `item_used` | アイテムを使用 |
+| `inventory_changed` | インベントリが変更 |
+| `world_changed` | 世界が変更（ディメンション） |
+| `respawned` | Botがリスポーン |
+| `item_crafted` | アイテムが製造された |
+| `item_smelted` | アイテムが精錬された |
+| `chest_opened` | コンテナが開かれた |
+| `item_deposited` | アイテムが預けられた |
+| `item_withdrawn` | アイテムが引き出された |
 
-## コントリビューション
+## 貢献
 
-コントリビューションを歓迎します！Pull Request を 자유に 提出してください。
+貢献は歓迎します！IssueとPull Requestをお気軽にどうぞ。
 
 ## ライセンス
 
-MIT ライセンスの下でライセンスされています。
+MIT
