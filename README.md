@@ -1,44 +1,90 @@
-# Minecraft Client Skill
+<!-- Separator -->
+---
 
-A comprehensive Minecraft bot skill for connecting to any Minecraft server and performing full game interactions, with built-in observer platform integration for real-time agent monitoring.
+<!-- Project Header -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="MineWorld Logo">
+</p>
 
+<h1 align="center">Minecraft Client</h1>
+
+<p align="center">
+  <strong>Real-Time Minecraft Agent Observation Platform</strong>
+</p>
+
+<p align="center">
+  Connect to any Minecraft server and perform full game interactions — all in one place.
+</p>
+
+<br/>
+
+<!-- Badges -->
+<p align="center">
+
+[![GitHub](https://img.shields.io/badge/GitHub-Wisdoverse%2Fminecraft--client-black?logo=github)](https://github.com/Wisdoverse/minecraft-client)
+[![Node.js](https://img.shields.io/badge/Node.js-16%2B-green?logo=nodedotjs)](https://nodejs.org/)
+[![Mineflayer](https://img.shields.io/badge/Mineflayer-4.37.0-blue)](https://github.com/PrismarineJS/mineflayer)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green?logo=opensourceinitiative)](LICENSE)
+
+</p>
+
+<!-- Language Switcher -->
+<p align="center">
+
+[English](README.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [Français](README.fr.md) · [Español](README.es.md) · [Deutsch](README.de.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [العربية](README.ar.md)
+
+</p>
+
+<!-- Separator -->
+---
+
+<!-- Table of Contents -->
+## Table of Contents
+
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Supported Actions](#supported-actions)
+- [Observer Platform Events](#observer-platform-events)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+<!-- Features -->
 ## Features
 
 ### Core Capabilities
-- **Server Connection**: Connect to any Minecraft server (offline or online mode)
-- **Movement Control**: Walk, jump, sprint, swim, navigate with pathfinder
-- **Combat System**: Attack entities, use weapons and armor
-- **Item Management**: Inventory viewing, item moving, equipment management
-- **Crafting System**: Craft items using inventory or workbench
-- **Smelting System**: Smelt ores with automatic furnace detection
-- **Container Operations**: Chest, hopper, dropper, dispenser, barrel, furnace access
-- **Trading**: Villager trading interface
-- **Farming**: Auto-till, plant, harvest crops
-- **Building**: Blueprint-based construction with progress reporting
-- **Vision**: Screenshot capture with scene information
-- **Wiki Query**: Search Minecraft Wiki for recipes and information
+
+| Category | Description |
+|----------|-------------|
+| **Server Connection** | Connect to any Minecraft server (offline or online mode) |
+| **Movement Control** | Walk, jump, sprint, swim, navigate with pathfinder |
+| **Combat System** | Attack entities, use weapons and armor |
+| **Item Management** | Inventory viewing, item moving, equipment management |
+| **Crafting System** | Craft items using inventory or workbench |
+| **Smelting System** | Smelt ores with automatic furnace detection |
+| **Container Operations** | Chest, hopper, dropper, dispenser, barrel, furnace access |
+| **Trading** | Villager trading interface |
+| **Farming** | Auto-till, plant, harvest crops |
+| **Building** | Blueprint-based construction with progress reporting |
+| **Vision** | Screenshot capture with scene information |
+| **Wiki Query** | Search Minecraft Wiki for recipes and information |
 
 ### Advanced Features
-- **Vehicle Control**: Enter/exit boats and minecarts
-- **Shield Blocking**: Enable/disable shield blocking
-- **Drop Whitelist**: Protect important items from accidental dropping
-- **Auto-Equip**: Automatically equip crafted armor, shields, bows
-- **Furnace Clear**: One-click withdrawal of all furnace contents
-- **Multi-Container Support**: Automatic detection of container types
 
-### Observer Platform Integration
-- Real-time agent status updates (position, health, inventory, equipment)
-- World snapshot reporting (blocks, entities)
-- Event tracking (moves, attacks, crafting, chat, etc.)
-- WebSocket-based communication
-- Automatic reconnection with backoff strategy
+| Feature | Description |
+|---------|-------------|
+| **Vehicle Control** | Enter/exit boats and minecarts |
+| **Shield Blocking** | Enable/disable shield blocking |
+| **Drop Whitelist** | Protect important items from accidental dropping |
+| **Auto-Equip** | Automatically equip crafted armor, shields, bows |
+| **Furnace Clear** | One-click withdrawal of all furnace contents |
+| **Multi-Container** | Automatic detection of container types |
 
-## Requirements
+<!-- Quick Start -->
+## Quick Start
 
-- Node.js 16+
-- npm
-
-## Installation
+### Installation
 
 ```bash
 # Clone the repository
@@ -49,9 +95,7 @@ cd minecraft-client
 npm install
 ```
 
-## Quick Start
-
-### 1. Connect to Server
+### Connect to Server
 
 ```bash
 # Offline server (default)
@@ -66,7 +110,7 @@ node scripts/connect.js --host localhost --port 25565 --username MyBot \
   --observer-token "your-token"
 ```
 
-### 2. Basic Interactions
+### Basic Interactions
 
 ```bash
 # Movement
@@ -76,10 +120,6 @@ node scripts/interact.js --action swim --connection-id <id> --swim-action start
 
 # Chat
 node scripts/interact.js --action chat --connection-id <id> --message "Hello!"
-
-# Block Interaction
-node scripts/interact.js --action break --connection-id <id> --position "10,64,10"
-node scripts/interact.js --action place --connection-id <id> --position "10,65,10"
 
 # Combat
 node scripts/interact.js --action attack --connection-id <id> --entity-name Zombie
@@ -94,42 +134,26 @@ node scripts/interact.js --action boat --connection-id <id> --boat-action enter
 node scripts/interact.js --action boat --connection-id <id> --boat-action exit
 ```
 
-### 3. Item Management
+### Crafting & Smelting
 
 ```bash
-# Drop items
-node scripts/interact.js --action drop --connection-id <id> --item diamond --count 5
-
-# Protect items with whitelist
-node scripts/interact.js --action drop --connection-id <id> --whitelist-action add --item diamond_sword
-node scripts/interact.js --action drop --connection-id <id> --whitelist-action list
-
-# Inventory
-node scripts/inventory.js --action list --connection-id <id>
-node scripts/inventory.js --action move --connection-id <id> --source-slot 0 --dest-slot 8
-```
-
-### 4. Crafting & Smelting
-
-```bash
-# Craft items (inventory crafting for 2x2 recipes)
+# Inventory crafting (2x2 recipes)
 node scripts/craft.js --connection-id <id> --item stick --amount 4
 
-# Craft with workbench (3x3 recipes)
+# Workbench crafting (3x3 recipes)
 node scripts/craft.js --connection-id <id> --item diamond_pickaxe --use-workbench true
 
 # Auto-equip crafted armor
 node scripts/craft.js --connection-id <id> --item diamond_helmet --auto-equip
-node scripts/craft.js --connection-id <id> --item shield --auto-equip
 
 # Smelt items
 node scripts/smelt.js --connection-id <id> --item iron_ore --amount 10 --fuel coal
 
-# Clear furnace (withdraw all items)
+# Clear furnace
 node scripts/smelt.js --connection-id <id> --action clear --furnace-position "100,64,200"
 ```
 
-### 5. Container Operations
+### Container Operations
 
 ```bash
 # List container contents
@@ -142,57 +166,8 @@ node scripts/chest.js --connection-id <id> --action store --position "100,64,200
 node scripts/chest.js --connection-id <id> --action withdraw --position "100,64,200" --item iron_ingot --amount 32
 ```
 
-### 6. Automation Tasks
-
-```bash
-# Navigate to location
-node scripts/auto.js --task goto --connection-id <id> --position "100,64,200"
-
-# Collect items
-node scripts/auto.js --task collect --connection-id <id> --item-type diamond --radius 32
-
-# Auto sleep
-node scripts/sleep.js --connection-id <id>
-
-# Farming
-node scripts/farm.js --connection-id <id> --farm-action till --position "100,64,200"
-```
-
-### 7. Query & Monitoring
-
-```bash
-# Query craftable items
-node scripts/interact.js --action query --connection-id <id> --query-action craftable
-
-# Generate crafting plan
-node scripts/interact.js --action query --connection-id <id> --query-action crafting_plan --item diamond_pickaxe
-
-# Query nearby blocks/entities
-node scripts/interact.js --action query --connection-id <id> --query-action nearby_blocks --range 16
-node scripts/interact.js --action query --connection-id <id> --query-action nearby_entities --range 16
-
-# Monitor environment
-node scripts/monitor.js --type entities --connection-id <id> --radius 50
-node scripts/monitor.js --type blocks --connection-id <id> --radius 10
-```
-
-### 8. Status & Vision
-
-```bash
-# Get bot status
-node scripts/status.js --connection-id <id>
-
-# Take screenshot
-node scripts/vision.js --connection-id <id>
-```
-
-### 9. Disconnect
-
-```bash
-node scripts/disconnect.js --connection-id <id>
-```
-
-## Supported Action Types
+<!-- Supported Actions -->
+## Supported Actions
 
 | Action | Description |
 |--------|-------------|
@@ -228,6 +203,7 @@ node scripts/disconnect.js --connection-id <id>
 | `sleep-auto` | Auto-find and sleep in bed |
 | `multi` | Multi-bot coordination |
 
+<!-- Observer Platform Events -->
 ## Observer Platform Events
 
 | Event Type | Description |
@@ -255,49 +231,46 @@ node scripts/disconnect.js --connection-id <id>
 | `item_deposited` | Item deposited |
 | `item_withdrawn` | Item withdrawn |
 
+<!-- Project Structure -->
 ## Project Structure
 
 ```
 minecraft-client/
-├── SKILL.md                           # Skill definition and documentation
+├── SKILL.md                           # Skill definition
 ├── package.json                       # Node.js dependencies
 ├── scripts/
-│   ├── connect.js                    # Main bot connection script
-│   ├── interact.js                   # Interactive command script
-│   ├── disconnect.js                 # Disconnect script
-│   ├── status.js                     # Status query script
-│   ├── vision.js                     # Screenshot script
-│   ├── inventory.js                  # Inventory management
-│   ├── craft.js                      # Crafting system
-│   ├── smelt.js                      # Smelting system
-│   ├── chest.js                      # Container operations
-│   ├── sleep.js                      # Sleep/wake system
-│   ├── auto.js                       # Automation tasks
-│   ├── farm.js                       # Farming system
-│   ├── build.js                      # Blueprint building
-│   ├── monitor.js                    # Environment monitoring
-│   ├── query.js                      # Query system
-│   ├── trade.js                      # Villager trading
-│   ├── events.js                     # Event subscription
-│   ├── wiki.js                       # Minecraft Wiki query
-│   └── multi.js                      # Multi-bot coordination
+│   ├── connect.js                     # Main bot connection
+│   ├── interact.js                    # Interactive commands
+│   ├── disconnect.js                  # Disconnect
+│   ├── status.js                      # Status query
+│   ├── vision.js                      # Screenshot
+│   ├── inventory.js                   # Inventory management
+│   ├── craft.js                       # Crafting system
+│   ├── smelt.js                       # Smelting system
+│   ├── chest.js                       # Container operations
+│   ├── sleep.js                       # Sleep/wake system
+│   ├── auto.js                        # Automation tasks
+│   ├── farm.js                        # Farming system
+│   ├── build.js                       # Blueprint building
+│   ├── monitor.js                     # Environment monitoring
+│   ├── query.js                       # Query system
+│   ├── trade.js                       # Villager trading
+│   ├── events.js                      # Event subscription
+│   ├── wiki.js                        # Wiki query
+│   └── multi.js                       # Multi-bot coordination
 └── references/
-    └── observer-platform-protocol.md # Observer platform protocol
+    └── observer-platform-protocol.md  # Observer platform protocol
 ```
 
-## Dependencies
+<!-- Contributing -->
+## Contributing
 
-- **mineflayer** (^4.37.0) - Minecraft bot framework
-- **mineflayer-pathfinder** (^2.4.5) - Pathfinding for navigation
-- **mineflayer-web** (^0.1.0) - Web interface
-- **prismarine-viewer** (^1.6.0) - Visual debugging
-- **ws** (^8.20.0) - WebSocket client
-- **vec3** (^0.3.24) - Vector math utilities
+Contributions are welcome! Please feel free to submit issues and pull requests.
 
+<!-- License -->
 ## License
 
 MIT
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit issues and pull requests.
+<!-- Footer Separator -->
+---
