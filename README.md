@@ -1,9 +1,6 @@
-<p align="center">
+<div align="center">
 
-<img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
-
-
-<h1 align="center">Minecraft Client</h1>
+Minecraft Client
 
 <strong>Real-Time Minecraft Agent Observation Platform</strong>
 
@@ -20,7 +17,7 @@ Monitor, track, and visualize your Minecraft AI agents — all in one place.
 **English** · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Français](README.fr.md) · [Русский](README.ru.md) · [Español](README.es.md) · [العربية](README.ar.md) · [Deutsch](README.de.md)
 
 ---
-</p>
+</div>
 
 ## Table of Contents
 
