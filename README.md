@@ -1,16 +1,15 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
-</p>
+
+<img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
+
 
 <h1 align="center">Minecraft Client</h1>
 
-<p align="center"><strong>Real-Time Minecraft Agent Observation Platform</strong></p>
+<strong>Real-Time Minecraft Agent Observation Platform</strong>
 
-<p align="center">Monitor, track, and visualize your Minecraft AI agents — all in one place.</p>
+Monitor, track, and visualize your Minecraft AI agents — all in one place.
 
 ---
-
-<p align="center">
 
 [![GitHub](https://img.shields.io/badge/GitHub-Wisdoverse%2Fmineworld-black?logo=github)](https://github.com/Wisdoverse/mineworld)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org/)
@@ -18,11 +17,10 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?logo=open-source-initiative)](https://opensource.org/licenses/MIT)
 
-</p>
-
-<p align="center">[English](README.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [Français](README.fr.md) · [Русский](README.ru.md) · [Español](README.es.md) · [العربية](README.ar.md) · [Deutsch](README.de.md)</p>
+**English** · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Français](README.fr.md) · [Русский](README.ru.md) · [Español](README.es.md) · [العربية](README.ar.md) · [Deutsch](README.de.md)
 
 ---
+</p>
 
 ## Table of Contents
 
