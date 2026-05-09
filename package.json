@@ -1,0 +1,26 @@
+{
+  "name": "minecraft-client-skill",
+  "version": "3.0.0",
+  "description": "Minecraft客户端连接与交互Skill",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mineflayer": "^4.37.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "mineflayer-web": "^0.1.0",
+    "prismarine-viewer": "^1.6.0",
+    "ws": "^8.20.0",
+    "vec3": "^0.3.24"
+  },
+  "keywords": [
+    "minecraft",
+    "bot",
+    "mineflayer",
+    "pathfinder",
+    "observer"
+  ],
+  "author": "",
+  "license": "MIT"
+}
