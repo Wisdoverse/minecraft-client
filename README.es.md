@@ -1,130 +1,132 @@
+<!-- header -->
+---
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Wisdoverse/mineworld/main/public/logo.svg" width="80" height="80" alt="logo">
+</p>
+
+<h1 align="center">MineWorld</h1>
+
+<p align="center"><strong>Plataforma de Observación de Agentes Minecraft en Tiempo Real</strong></p>
+
+<p align="center">Monitorea, rastrea y visualiza tus agentes IA de Minecraft — todo en un solo lugar.</p>
+
+---
+
+<p align="center">
+
+[![GitHub](https://img.shields.io/badge/GitHub-Wisdoverse%2Fmineworld-black?logo=github)](https://github.com/Wisdoverse/mineworld)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green?logo=open-source-initiative)](https://opensource.org/licenses/MIT)
+
+</p>
+
+<p align="center">[English](README.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [Français](README.fr.md) · [Русский](README.ru.md) · [Español](README.es.md) · [العربية](README.ar.md) · [Deutsch](README.de.md)</p>
+
 ---
 
 ## Tabla de contenidos
 
 - [Características](#características)
 - [Inicio rápido](#inicio-rápido)
-- [Acciones soportadas](#acciones-soportadas)
-- [Eventos de plataforma](#eventos-de-plataforma)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Contribución](#contribución)
+- [Arquitectura](#arquitectura)
+- [Observabilidad](#observabilidad)
+- [Contribuir](#contribuir)
 - [Licencia](#licencia)
 
 ## Características
 
-### Capacidades principales
+### Monitoreo en tiempo real
 
-| Categoría | Descripción |
-|-----------|-------------|
-| **Conexión a servidor** | Conectar a cualquier servidor Minecraft (offline u online) |
-| **Control de movimiento** | Caminar, saltar, correr, nadar, navegación con pathfinder |
-| **Sistema de combate** | Atacar entidades, usar armas y armadura |
-| **Gestión de items** | Ver inventario, mover items, gestionar equipamiento |
-| **Sistema de crafteo** | Fabricar usando inventario o mesa de crafteo |
-| **Sistema de fundición** | Fundir minerales con detección automática de horno |
-| **Operaciones de contenedor** | Cofre, tolva, dispensador, barril, horno |
-| **Sistema de comercio** | Interfaz de comercio con aldeanos |
-| **Sistema de agricultura** | Arar, plantar, cosechar automáticamente |
-| **Sistema de construcción** | Construcción con planos, reporte de progreso |
-| **Sistema de visión** | Captura de pantalla e información de escena |
-| **Consulta Wiki** | Buscar recetas e información en Minecraft Wiki |
+- **Seguimiento de agentes** — Rastrea posición, salud, inventario y estado en tiempo real
+- **Flujo de eventos** — Transmite todos los eventos al plataforma de observación
+- **Instantáneas del mundo** — Instantáneas periódicas de bloques y entidades
 
-### Funciones avanzadas
+### Herramientas integradas
 
-| Función | Descripción |
-|---------|-------------|
-| **Control de vehículos** | Entrar/salir de barcos y vagonetas |
-| **Bloqueo con escudo** | Activar/desactivar bloqueo de escudo |
-| **Lista blanca de drop** | Proteger items importantes de descarte accidental |
-| **Auto-equipar** | Equipar automáticamente armadura, escudos, arcos fabricados |
-| **Limpiar horno** | Retirar todo el contenido del horno con un clic |
-| **Multi-contenedor** | Detección automática de tipo de contenedor |
+- **Búsqueda de rutas** — Navega a cualquier ubicación usando A*
+- **Combate** — Ataca entidades con comportamiento configurable
+- **Inventario** — Gestión completa (mover, equipar, tirar objetos)
+- **Fabricación** — Fabrica objetos con mesa de trabajo o inventario
+- **Fundición** — Funde minerales y cocina alimentos
+- **Agricultura** — Cultivo automático (trigo, zanahorias, papas, remolacha)
+- **Construcción** — Construye estructuras desde archivos blueprint
+- **Comercio** — Comercia con aldeanos
+- **Sueño** — Encontrar y dormir en camas
+- **Pesca** — Pesca automática
+
+### Plataforma de observación
+
+- **Conexión WebSocket** — Comunicación bidireccional en tiempo real
+- **Suscripción a eventos** — Suscríbete a tipos de eventos específicos
+- **Coordinación de equipo** — Soporte multi-agente
+- **Informes de progreso** — Seguimiento de progreso de construcción
 
 ## Inicio rápido
+
+### Requisitos previos
+
+- Node.js 18+
+- Servidor Minecraft (Java Edition 1.8+)
 
 ### Instalación
 
 ```bash
-git clone https://github.com/Wisdoverse/minecraft-client.git
-cd minecraft-client
+git clone https://github.com/Wisdoverse/mineworld.git
+cd mineworld
 npm install
+npm run dev
 ```
 
-### Conexión al servidor
+## Arquitectura
 
-```bash
-# Servidor offline (predeterminado)
-node scripts/connect.js --host localhost --port 25565 --username MyBot --auth offline
-
-# Servidor con auth Microsoft
-node scripts/connect.js --host mc.hypixel.net --port 25565 --username MyBot --auth microsoft --password "your-password"
-
-# Con plataforma de observación
-node scripts/connect.js --host localhost --port 25565 --username MyBot \
-  --observer-ws "wss://your-observer-server/ws/agent" \
-  --observer-token "your-token"
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Plataforma de Observación                  │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │   Panel de  │  │   Flujo de  │  │   Gestión   │         │
+│  │   control   │  │   eventos   │  │   de equipo │         │
+│  └─────────────┘  └─────────────┘  └─────────────┘         │
+└─────────────────────────────────────────────────────────────┘
+                            ▲
+                            │ WebSocket
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Cliente Minecraft                         │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │   Mineflayer │  │  Pathfinder │  │   Acciones  │         │
+│  │             │  │            │  │   Manager   │         │
+│  └─────────────┘  └─────────────┘  └─────────────┘         │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## Acciones soportadas
+## Observabilidad
 
-| Acción | Descripción |
-|--------|-------------|
-| `move` | Mover en dirección |
-| `jump` | Saltar |
-| `chat` | Enviar mensaje |
-| `break` | Romper bloque |
-| `place` | Colocar bloque |
-| `attack` | Atacar entidad |
-| `equip` | Equipar item |
-| `drop` | Soltar item |
-| `look` | Mirar posición |
-| `eat` | Comer |
-| `sleep` / `wake` | Dormir / Despertar |
-| `fish` | Pescar |
-| `boat` | Entrar/salir de barco |
-| `minecart` | Entrar/salir de vagoneta |
-| `block` | Bloqueo con escudo |
-| `goto` | Navegar a posición |
-| `craft` | Fabricar item |
-| `smelt` | Fundir item |
-| `chest` | Operaciones de contenedor |
-| `trade` | Comercio con aldeanos |
-| `farm` | Operaciones agrícolas |
-| `build` | Construcción con planos |
-
-## Eventos de plataforma
+### Tipos de eventos
 
 | Evento | Descripción |
 |--------|-------------|
-| `connected` | Bot conectado |
-| `disconnected` | Bot desconectado |
-| `moved` | Bot movido |
-| `attacked` | Bot atacó |
-| `item_picked_up` | Item recogido |
-| `item_crafted` | Item fabricado |
-| `item_smelted` | Item fundido |
-| `chest_opened` | Contenedor abierto |
+| `connected` | Agente conectado al servidor |
+| `disconnected` | Agente desconectado |
+| `moved` | Agente movido |
+| `jumped` | Agente saltó |
+| `attacked` | Agente atacó una entidad |
+| `damaged` | Agente recibió daño |
+| `died` | Agente murió |
+| `chat_sent` | Mensaje de chat enviado |
+| `chat_received` | Mensaje de chat recibido |
+| `block_broken` | Bloque roto |
+| `block_placed` | Bloque colocado |
+| `item_picked_up` | Objeto recogido |
+| `item_dropped` | Objeto tirado |
+| `inventory_changed` | Inventario modificado |
 
-## Estructura del proyecto
+## Contribuir
 
-```
-minecraft-client/
-├── SKILL.md                           # Definición del Skill
-├── package.json                       # Dependencias
-├── scripts/                           # 19 scripts
-│   ├── connect.js                     # Conexión principal
-│   ├── interact.js                    # Comandos interactivos
-│   ├── craft.js, smelt.js             # Crafteo y fundición
-│   ├── chest.js                       # Contenedores
-│   └── ...
-└── references/
-    └── observer-platform-protocol.md  # Protocolo de observación
-```
-
-## Contribución
-
-¡Las contribuciones son bienvenidas!
+¡Las contribuciones son bienvenidas! Siéntete libre de enviar un Pull Request.
 
 ## Licencia
 
-MIT
+Este proyecto está bajo la licencia MIT.
